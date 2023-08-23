@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["ESNext", "DOM"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": ["."]
+}
