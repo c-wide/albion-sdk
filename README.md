@@ -3,8 +3,9 @@
 > **Disclaimer:** This SDK is not affiliated with, endorsed, or sponsored by
 > Albion Online or Sandbox Interactive GmbH.
 
-A modern and efficient SDK for the Albion Online API. Designed with ❤️ for both
-Node.js and Deno developers.
+A modern and efficient SDK for the Albion Online API.
+
+Designed with ❤️ for both Node.js and Deno developers.
 
 ## Features
 
