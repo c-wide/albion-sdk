@@ -34,6 +34,11 @@ export type Player = {
   gvgWon: number | null
 }
 
+/**
+ * Fetches details about guilds and players based on an exact starting match of the specified search term.
+ *
+ * @param {string} searchTerm - The term to search for, between 1 and a yet-to-be-defined maximum length.
+ */
 export async function search(
   searchTerm: string,
 ): Promise<Result<SearchResult, string>> {
