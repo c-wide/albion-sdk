@@ -1,7 +1,7 @@
 {
   "name": "albion-sdk",
   "description": "Albion Online API SDK",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "author": "Cody Tenney",
   "repository": {
@@ -51,6 +51,6 @@
   },
   "packageManager": "pnpm@8.6.9",
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.7.0"
   }
 }
