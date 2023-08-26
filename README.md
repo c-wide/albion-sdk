@@ -5,39 +5,26 @@
 
 A modern and efficient SDK for the Albion Online API.
 
-Designed with ❤️ for both Node.js and Deno developers.
+Designed with ❤️ for the Albion community.
 
 ## Features
 
-- 🌍 **Cross-Platform**: Designed for both Node.js and Deno.
-- 🚀 **Small Bundle**: Optimized for size and speed.
 - 🔎 **Comprehensive**: Complete access to all known Albion Online API
   endpoints.
-- 📖 **Intuitive API**: Designed for clarity and ease of use.
+- 📖 **Intuitive API**: Crafted for clarity and ease of use.
+- 📘 **TypeScript-First**: Tailored for TypeScript developers, offering
+  extensive type coverage.
+- 🚀 **Small Bundle**: Optimized for size and speed.
 - 🛠️ **Clean Code**: No unnecessary dependencies.
-
-## Installation
-
-### Node.js
-
-```bash
-npm install albion-sdk
-yarn add albion-sdk
-pnpm add albion-sdk
-```
-
-### Deno
-
-```typescript
-import { AlbionSDK } from "https://github.com/c-wide/albion-sdk/mod.ts"
-```
+- 🌍 **Module Support**: Designed for ESM and CJS compatibility.
 
 ## Usage
 
 ```javascript
 import { AlbionSDK } from "albion-sdk"
 
-const api = new AlbionSDK("west")
+// default is "west"
+const api = new AlbionSDK("east")
 
 function demo() {
     const res = await api.search("man")
