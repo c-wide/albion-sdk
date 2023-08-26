@@ -10,7 +10,6 @@ Designed with ❤️ for both Node.js and Deno developers.
 ## Features
 
 - 🌍 **Cross-Platform**: Designed for both Node.js and Deno.
-- 🌲 **Tree-Shakable**: Import only what you need.
 - 🚀 **Small Bundle**: Optimized for size and speed.
 - 🔎 **Comprehensive**: Complete access to all known Albion Online API
   endpoints.
@@ -30,5 +29,24 @@ pnpm add albion-sdk
 ### Deno
 
 ```typescript
-import { search } from "https://github.com/c-wide/albion-sdk/mod.ts"
+import { AlbionSDK } from "https://github.com/c-wide/albion-sdk/mod.ts"
+```
+
+## Usage
+
+```javascript
+import { AlbionSDK } from "albion-sdk"
+
+const api = new AlbionSDK("west")
+
+function demo() {
+    const res = await api.search("man")
+
+    if (!res.ok) return
+
+    console.log(res.data)
+}
+
+demo()
+
 ```
