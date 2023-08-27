@@ -1,9 +1,14 @@
 import fetch from "node-fetch"
 
-import type { Result } from "./types.ts"
+import type {
+  Result,
+  ServerAPIURL,
+  ServerStatus,
+  ServerStatusURL,
+} from "./types.ts"
 
 function buildURL(
-  baseURL: string,
+  baseURL: ServerAPIURL,
   endpoint: string,
   queryParams?: Record<string, string | number>,
 ) {
@@ -22,8 +27,34 @@ function buildURL(
   return `${baseURL}${endpoint}${queryParams ? "?" + params.toString() : ""}`
 }
 
+export async function _internal_fetch_status(
+  url: ServerStatusURL,
+): Promise<Result<ServerStatus, string>> {
+  try {
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      throw new Error(
+        `Albion status server returned a status code of ${response.status}`,
+      )
+    }
+
+    const data = (await response.json()) as ServerStatus
+
+    return {
+      ok: true,
+      data: data,
+    }
+  } catch (e) {
+    return {
+      ok: false,
+      error: e instanceof Error ? e.message : "Unknown error",
+    }
+  }
+}
+
 export async function _internal_fetch<T>(
-  baseURL: string,
+  baseURL: ServerAPIURL,
   endpoint: string,
   queryParams?: Record<string, string | number>,
 ): Promise<Result<T, string>> {

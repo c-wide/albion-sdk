@@ -23,8 +23,7 @@ Designed with ❤️ for the Albion community.
 ```javascript
 import { AlbionSDK } from "albion-sdk"
 
-// default is "west"
-const api = new AlbionSDK("east")
+const api = new AlbionSDK("west")
 
 function demo() {
     const res = await api.search("man")

@@ -1,3 +1,10 @@
+import type {
+  EAST_API_URL,
+  EAST_STATUS_URL,
+  WEST_API_URL,
+  WEST_STATUS_URL,
+} from "./config.ts"
+
 export type Ok<T> = {
   ok: true
   data: T
@@ -12,7 +19,24 @@ export type Result<T, E> = Ok<T> | Err<E>
 
 export type Server = "west" | "east"
 
+export type ServerAPIURL = typeof WEST_API_URL | typeof EAST_API_URL
+
+export type ServerStatusURL = typeof WEST_STATUS_URL | typeof EAST_STATUS_URL
+
 export type StandardTimeRange = "week" | "month" | "lastWeek" | "lastMonth"
+
+export type ServerOnline = {
+  status: "online" | "starting"
+  message: string
+}
+
+export type ServerOffline = {
+  status: 500
+  message: string
+  timestamp: number
+}
+
+export type ServerStatus = ServerOnline | ServerOffline
 
 export type PaginationParams = {
   limit?: number

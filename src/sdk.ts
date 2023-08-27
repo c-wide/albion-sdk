@@ -1,24 +1,27 @@
-import { EAST_API_URL, WEST_API_URL } from "./config.ts"
-import { _internal_fetch } from "./fetch.ts"
+import {
+  EAST_API_URL,
+  EAST_STATUS_URL,
+  WEST_API_URL,
+  WEST_STATUS_URL,
+} from "./config.ts"
+import { _internal_fetch, _internal_fetch_status } from "./fetch.ts"
 import type {
   Player,
   Result,
   SearchResult,
   Server,
+  ServerAPIURL,
+  ServerStatusURL,
   TopAndSoloKillsParams,
 } from "./types.ts"
 
 export class AlbionSDK {
-  private apiURL = WEST_API_URL
+  private apiURL: ServerAPIURL
+  private statusURL: ServerStatusURL
 
-  constructor(server?: Server) {
-    if (server) {
-      this.setServer(server)
-    }
-  }
-
-  private setServer(server: Server) {
+  constructor(server: Server) {
     this.apiURL = server === "west" ? WEST_API_URL : EAST_API_URL
+    this.statusURL = server === "west" ? WEST_STATUS_URL : EAST_STATUS_URL
   }
 
   private async fetch<T>(
@@ -26,6 +29,13 @@ export class AlbionSDK {
     queryParams?: Record<string, string | number>,
   ): Promise<Result<T, string>> {
     return _internal_fetch<T>(this.apiURL, endpoint, queryParams)
+  }
+
+  /**
+   * Fetches the current status of the target Albion Online server.
+   */
+  async getServerStatus() {
+    return _internal_fetch_status(this.statusURL)
   }
 
   /**
