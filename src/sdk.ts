@@ -14,8 +14,7 @@ import type {
   GuildInfo,
   GvGStats,
   PaginationParams,
-  Result,
-  SearchResult,
+  SearchResponse,
   Server,
   ServerAPIURL,
   ServerStatusURL,
@@ -23,30 +22,30 @@ import type {
 } from "./types.ts"
 
 export class AlbionSDK {
-  private apiURL: ServerAPIURL
-  private statusURL: ServerStatusURL
+  private _apiURL: ServerAPIURL
+  private _statusURL: ServerStatusURL
 
   constructor(server: Server) {
     if (server === undefined) {
       throw new Error("You must specify a server")
     }
 
-    this.apiURL = server === "west" ? WEST_API_URL : EAST_API_URL
-    this.statusURL = server === "west" ? WEST_STATUS_URL : EAST_STATUS_URL
+    this._apiURL = server === "west" ? WEST_API_URL : EAST_API_URL
+    this._statusURL = server === "west" ? WEST_STATUS_URL : EAST_STATUS_URL
   }
 
-  private async fetch<T>(
+  private async _fetch<T>(
     endpoint: string,
     queryParams?: Record<string, string | number>,
-  ): Promise<Result<T, string>> {
-    return _internal_fetch<T>(this.apiURL, endpoint, queryParams)
+  ): Promise<T> {
+    return _internal_fetch<T>(this._apiURL, endpoint, queryParams)
   }
 
   /**
    * Fetch the current status of the target Albion Online server.
    */
   async getServerStatus() {
-    return _internal_fetch_status(this.statusURL)
+    return _internal_fetch_status(this._statusURL)
   }
 
   /**
@@ -55,7 +54,7 @@ export class AlbionSDK {
    * @param {string} searchTerm - The term to search for, between 1 and a yet-to-be-defined maximum length.
    */
   async search(searchTerm: string) {
-    return this.fetch<SearchResult>(`/search?q=${searchTerm}`)
+    return this._fetch<SearchResponse>(`/search?q=${searchTerm}`)
   }
 
   /**
@@ -64,7 +63,7 @@ export class AlbionSDK {
    * @param {string} id - the players id you wish to fetch details about
    */
   async getPlayerInfo(id: string) {
-    return this.fetch<BattlePlayer>(`/players/${id}`)
+    return this._fetch<BattlePlayer>(`/players/${id}`)
   }
 
   /**
@@ -73,7 +72,7 @@ export class AlbionSDK {
    * @param {string} id - the players id you wish to fetch kills for
    */
   async getPlayerLatestKills(id: string) {
-    return this.fetch<Array<Event>>(`/players/${id}/kills`)
+    return this._fetch<Array<Event>>(`/players/${id}/kills`)
   }
 
   /**
@@ -82,7 +81,7 @@ export class AlbionSDK {
    * @param {string} id - the players id you wish to fetch deaths for
    */
   async getPlayerLatestDeaths(id: string) {
-    return this.fetch<Array<Event>>(`/players/${id}/deaths`)
+    return this._fetch<Array<Event>>(`/players/${id}/deaths`)
   }
 
   /**
@@ -92,7 +91,7 @@ export class AlbionSDK {
    * @param {TopAndSoloKillsParams} params - the params you wish to use for the request
    */
   async getPlayerTopKills(id: string, params?: TopAndSoloKillsParams) {
-    return this.fetch<Array<Event>>(`/players/${id}/topkills`, params)
+    return this._fetch<Array<Event>>(`/players/${id}/topkills`, params)
   }
 
   /**
@@ -102,7 +101,7 @@ export class AlbionSDK {
    * @param {TopAndSoloKillsParams} params - the params you wish to use for the request
    */
   async getPlayerTopSoloKills(id: string, params?: TopAndSoloKillsParams) {
-    return this.fetch<Array<Event>>(`/players/${id}/solokills`, params)
+    return this._fetch<Array<Event>>(`/players/${id}/solokills`, params)
   }
 
   /**
@@ -111,7 +110,7 @@ export class AlbionSDK {
    * @param {string} id - the guilds id you wish to fetch details about
    */
   async getGuildInfo(id: string) {
-    return this.fetch<GuildInfo>(`/guilds/${id}`)
+    return this._fetch<GuildInfo>(`/guilds/${id}`)
   }
 
   /**
@@ -120,7 +119,7 @@ export class AlbionSDK {
    * @param {string} id - the guilds id you wish to fetch details about
    */
   async getGuildDetailedInfo(id: string) {
-    return this.fetch<DetailedGuildInfo>(`/guilds/${id}/data`)
+    return this._fetch<DetailedGuildInfo>(`/guilds/${id}/data`)
   }
 
   /**
@@ -129,7 +128,7 @@ export class AlbionSDK {
    * @param {string} id - the guilds id you wish to fetch details about
    */
   async getGuildMembers(id: string) {
-    return this.fetch<Array<BattlePlayer>>(`/guilds/${id}/members`)
+    return this._fetch<Array<BattlePlayer>>(`/guilds/${id}/members`)
   }
 
   /**
@@ -138,7 +137,7 @@ export class AlbionSDK {
    * @param {string} id - the guilds id you wish to fetch details about
    */
   async getGuildGvGStats(id: string) {
-    return this.fetch<GvGStats>(`/guilds/${id}/stats`)
+    return this._fetch<GvGStats>(`/guilds/${id}/stats`)
   }
 
   /**
@@ -148,7 +147,7 @@ export class AlbionSDK {
    * @param {string} secondGuildId - the second guild id you wish to fetch details about
    */
   async getGuildFued(firstGuildId: string, secondGuildId: string) {
-    return this.fetch<Array<Event>>(
+    return this._fetch<Array<Event>>(
       `/guilds/${firstGuildId}/fued/${secondGuildId}`,
     )
   }
@@ -160,7 +159,7 @@ export class AlbionSDK {
    * @param {PaginationParams} params - the params you wish to use for the request
    */
   async getGuildRecentEvents(id: string, params?: PaginationParams) {
-    return this.fetch<Array<Event>>(
+    return this._fetch<Array<Event>>(
       `/events`,
       params
         ? {
@@ -178,7 +177,7 @@ export class AlbionSDK {
    * @param {BattleParams} params - the params you wish to use for the request
    */
   async getGuildRecentBattles(id: string, params?: BattleParams) {
-    return this.fetch<Array<Battle>>(
+    return this._fetch<Array<Battle>>(
       `/battles`,
       params
         ? {
@@ -196,7 +195,7 @@ export class AlbionSDK {
    * @param {TopAndSoloKillsParams} params - the params you wish to use for the request
    */
   async getGuildTopKills(id: string, params?: TopAndSoloKillsParams) {
-    return this.fetch<Array<Event>>(`/guilds/${id}/top`, params)
+    return this._fetch<Array<Event>>(`/guilds/${id}/top`, params)
   }
 
   /**
@@ -205,7 +204,7 @@ export class AlbionSDK {
    * @param {string} id - the alliance id you wish to fetch details about
    */
   async getAllianceInfo(id: string) {
-    return this.fetch<Alliance>(`/alliances/${id}`)
+    return this._fetch<Alliance>(`/alliances/${id}`)
   }
 
   /**
@@ -214,7 +213,7 @@ export class AlbionSDK {
    * @param {BattleParams} params - the params you wish to use for the request
    */
   async getRecentBattles(params?: BattleParams) {
-    return this.fetch<Array<Battle>>("/battles", params)
+    return this._fetch<Array<Battle>>("/battles", params)
   }
 
   /**
@@ -223,7 +222,7 @@ export class AlbionSDK {
    * @param {string} id - the battle id you wish to fetch details about
    */
   async getBattleInfo(id: string) {
-    return this.fetch<Battle>(`/battles/${id}`)
+    return this._fetch<Battle>(`/battles/${id}`)
   }
 
   /**
@@ -233,6 +232,6 @@ export class AlbionSDK {
    * @param {PaginationParams} params - the params you wish to use for the request
    */
   async getBattleEvents(id: string, params: Required<PaginationParams>) {
-    return this.fetch<Array<Event>>(`/battle/${id}`, params)
+    return this._fetch<Array<Event>>(`/battle/${id}`, params)
   }
 }

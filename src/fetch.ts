@@ -1,9 +1,8 @@
 import fetch from "node-fetch"
 
 import type {
-  Result,
   ServerAPIURL,
-  ServerStatus,
+  ServerStatusResponse,
   ServerStatusURL,
 } from "./types.ts"
 
@@ -29,27 +28,20 @@ function buildURL(
 
 export async function _internal_fetch_status(
   url: ServerStatusURL,
-): Promise<Result<ServerStatus, string>> {
+): Promise<ServerStatusResponse> {
   try {
     const response = await fetch(url)
 
     if (!response.ok) {
-      throw new Error(
-        `Albion status server returned a status code of ${response.status}, the server is most likely down for maintenance`,
-      )
+      return {
+        status: "offline",
+        message: `Albion status server returned a status code of ${response.status}, the server is most likely down for maintenance`,
+      }
     }
 
-    const data = (await response.json()) as ServerStatus
-
-    return {
-      ok: true,
-      data: data,
-    }
+    return (await response.json()) as ServerStatusResponse
   } catch (e) {
-    return {
-      ok: false,
-      error: e instanceof Error ? e.message : "Unknown error",
-    }
+    throw e instanceof Error ? e : new Error("Unknown error")
   }
 }
 
@@ -57,7 +49,7 @@ export async function _internal_fetch<T>(
   baseURL: ServerAPIURL,
   endpoint: string,
   queryParams?: Record<string, string | number>,
-): Promise<Result<T, string>> {
+): Promise<T> {
   try {
     const response = await fetch(buildURL(baseURL, endpoint, queryParams))
 
@@ -67,16 +59,8 @@ export async function _internal_fetch<T>(
       )
     }
 
-    const data = (await response.json()) as T
-
-    return {
-      ok: true,
-      data: data,
-    }
+    return (await response.json()) as T
   } catch (e) {
-    return {
-      ok: false,
-      error: e instanceof Error ? e.message : "Unknown error",
-    }
+    throw e instanceof Error ? e : new Error("Unknown error")
   }
 }

@@ -5,18 +5,6 @@ import type {
   WEST_STATUS_URL,
 } from "./config.ts"
 
-export type Ok<T> = {
-  ok: true
-  data: T
-}
-
-export type Err<T> = {
-  ok: false
-  error: T
-}
-
-export type Result<T, E> = Ok<T> | Err<E>
-
 export type Server = "west" | "east"
 
 export type ServerAPIURL = typeof WEST_API_URL | typeof EAST_API_URL
@@ -27,18 +15,12 @@ export type StandardTimeRange = "week" | "month" | "lastWeek" | "lastMonth"
 
 export type SortOptions = "totalfame" | "recent"
 
-export type ServerOnline = {
-  status: "online" | "starting"
+export type ServerStatus = "online" | "offline" | "starting"
+
+export type ServerStatusResponse = {
+  status: ServerStatus
   message: string
 }
-
-export type ServerOffline = {
-  status: 500
-  message: string
-  timestamp: number
-}
-
-export type ServerStatus = ServerOnline | ServerOffline
 
 export type PaginationParams = {
   limit?: number
@@ -54,7 +36,7 @@ export type BattleParams = {
   sort?: SortOptions
 } & PaginationParams
 
-export type SearchResult = {
+export type SearchResponse = {
   guilds: Array<SearchGuild>
   players: Array<SearchPlayer>
 }

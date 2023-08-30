@@ -25,12 +25,12 @@ import { AlbionSDK } from "albion-sdk"
 
 const api = new AlbionSDK("west")
 
-api.search("man").then((res) => {
-  if (!res.ok) {
-    console.log(res.error)
-    return
-  }
-
-  console.log(res.data)
-})
+api
+  .search("man")
+  .then((res) => {
+    console.log(res)
+  })
+  .catch((e) => {
+    console.log(e)
+  })
 ```
