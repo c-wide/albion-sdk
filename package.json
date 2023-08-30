@@ -35,8 +35,7 @@
     "lint": "eslint \"src/**/*.ts*\" && tsc --noEmit",
     "format": "prettier --write ./src",
     "format-check": "prettier --check ./src",
-    "build": "tsup",
-    "publish": "npm publish"
+    "build": "tsup"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
