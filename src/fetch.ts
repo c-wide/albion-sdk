@@ -35,7 +35,7 @@ export async function _internal_fetch_status(
 
     if (!response.ok) {
       throw new Error(
-        `Albion status server returned a status code of ${response.status}`,
+        `Albion status server returned a status code of ${response.status}, the server is most likely down for maintenance`,
       )
     }
 
