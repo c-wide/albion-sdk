@@ -27,6 +27,10 @@ export class AlbionSDK {
   private statusURL: ServerStatusURL
 
   constructor(server: Server) {
+    if (server === undefined) {
+      throw new Error("You must specify a server")
+    }
+
     this.apiURL = server === "west" ? WEST_API_URL : EAST_API_URL
     this.statusURL = server === "west" ? WEST_STATUS_URL : EAST_STATUS_URL
   }
