@@ -25,6 +25,8 @@ export type ServerStatusURL = typeof WEST_STATUS_URL | typeof EAST_STATUS_URL
 
 export type StandardTimeRange = "week" | "month" | "lastWeek" | "lastMonth"
 
+export type SortOptions = "totalfame" | "recent"
+
 export type ServerOnline = {
   status: "online" | "starting"
   message: string
@@ -45,6 +47,11 @@ export type PaginationParams = {
 
 export type TopAndSoloKillsParams = {
   range?: StandardTimeRange
+} & PaginationParams
+
+export type BattleParams = {
+  range?: StandardTimeRange
+  sort?: SortOptions
 } & PaginationParams
 
 export type SearchResult = {
@@ -169,11 +176,121 @@ export type Event = {
   Victim: Player
   TotalVictimKillFame: number
   Location: null
-  Participants: Participant[]
-  GroupMembers: Player[]
+  Participants: Array<Participant>
+  GroupMembers: Array<Player>
   GvGMatch: null
   BattleId: number
   KillArea: string
   Category: null
   Type: string
+}
+
+export type BaseGuildInfo = {
+  Id: string
+  Name: string
+  FounderId: string
+  FounderName: string
+  Founded: string
+  AllianceTag: string
+  AllianceId: string
+  AllianceName: null
+  Logo: null
+  killFame: number
+  DeathFame: number
+  AttacksWon: null
+  DefensesWon: null
+}
+
+export type GuildInfo = {
+  MemberCount: number
+} & BaseGuildInfo
+
+export type DetailedGuildInfo = {
+  guild: BaseGuildInfo
+  overall: GuildOverallStats
+  topPlayers: Array<SearchPlayer>
+  basic: BasicGuildInfo
+}
+
+export type BasicGuildInfo = {
+  founder: string
+  memberCount: number
+  founded: string
+}
+
+export type GuildOverallStats = {
+  kills: number
+  gvgKills: number
+  gvg: GvGStats
+  fame: number
+  gvgDeaths: number
+  deaths: number
+  ratio: string
+}
+
+export type GvGStats = {
+  defense_lost: number
+  attacks_won: number
+  defense_won: number
+  attacks_lost: number
+}
+
+export type Battle = {
+  id: number
+  startTime: string
+  endTime: string
+  timeout: string
+  totalFame: number
+  totalKills: number
+  clusterName: null
+  players: Record<string, BattlePlayer>
+  guilds: Record<string, BattleGuild>
+  alliances: Record<string, BattleAlliance>
+  battle_TIMEOUT: number
+}
+
+export type BattleAlliance = {
+  name: string
+  kills: number
+  deaths: number
+  killFame: number
+  id: string
+}
+
+export type BattleGuild = {
+  name: string
+  kills: number
+  deaths: number
+  killFame: number
+  alliance: string
+  allianceId: string
+  id: string
+}
+
+export type BattlePlayer = {
+  name: string
+  kills: number
+  deaths: number
+  killFame: number
+  guildName: string
+  guildId: string
+  allianceName: string
+  allianceId: string
+  id: string
+}
+
+export type Alliance = {
+  AllianceId: string
+  AllianceName: string
+  AllianceTag: string
+  FounderId: string
+  FounderName: string
+  Founded: string
+  Guilds: Array<GuildIdentifier>
+  NumPlayers: number
+}
+
+export type GuildIdentifier = {
+  Id: string
+  Name: string
 }
