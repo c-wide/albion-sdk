@@ -143,7 +143,7 @@ export type PVE = {
   Mists: number
 }
 
-export type Participant = Player & {
+export type EventParticipant = Player & {
   DamageDone: number
   SupportHealingDone: number
 }
@@ -158,7 +158,7 @@ export type Event = {
   Victim: Player
   TotalVictimKillFame: number
   Location: null
-  Participants: Array<Participant>
+  Participants: Array<EventParticipant>
   GroupMembers: Array<Player>
   GvGMatch: null
   BattleId: number
@@ -275,4 +275,190 @@ export type Alliance = {
 export type GuildIdentifier = {
   Id: string
   Name: string
+}
+
+export type WeaponCategory = {
+  id: string
+  name: string
+}
+export type ItemCategoryTree = {
+  head: HeadTree
+  mainhand: MainhandTree
+  potion: PotionTree
+  armor: ArmorTree
+  bag: BagTree
+  mount: MountTree
+  shoes: ShoesTree
+  cape: CapeTree
+  food: FoodTree
+  offhand: OffhandTree
+}
+
+export type ArmorTree = {
+  rockgatherer_armor: string
+  oregatherer_armor: string
+  leather_armor: string
+  fibergatherer_armor: string
+  hidegatherer_armor: string
+  plate_armor: string
+  cloth_armor: string
+  fishgatherer_armor: string
+  woodgatherer_armor: string
+}
+
+export type BagTree = {
+  bag: string
+}
+
+export type CapeTree = {
+  rockgatherer_backpack: string
+  oregatherer_backpack: string
+  fishgatherer_backpack: string
+  woodgatherer_backpack: string
+  hidegatherer_backpack: string
+  cape: string
+  fibergatherer_backpack: string
+}
+
+export type FoodTree = {
+  fish: string
+  cooked: string
+  vanity: string
+}
+
+export type HeadTree = {
+  fibergatherer_helmet: string
+  woodgatherer_helmet: string
+  leather_helmet: string
+  plate_helmet: string
+  hidegatherer_helmet: string
+  rockgatherer_helmet: string
+  cloth_helmet: string
+  oregatherer_helmet: string
+  fishgatherer_helmet: string
+}
+
+export type MainhandTree = {
+  firestaff: string
+  dagger: string
+  hammer: string
+  crossbow: string
+  mace: string
+  cursestaff: string
+  bow: string
+  arcanestaff: string
+  axe: string
+  sword: string
+  spear: string
+  froststaff: string
+  naturestaff: string
+  knuckles: string
+  quarterstaff: string
+  holystaff: string
+}
+
+export type MountTree = {
+  mule: string
+  giantstag: string
+  rare_mount: string
+  swampdragon: string
+  ridinghorse: string
+  direbear: string
+  battle_mount: string
+  armoredhorse: string
+  ox: string
+  direwolf: string
+  cougar: string
+  direboar: string
+}
+
+export type OffhandTree = {
+  shield: string
+  horn: string
+  book: string
+  totem: string
+  torch: string
+  orb: string
+}
+
+export type PotionTree = {
+  potion: string
+  fishingbait: string
+  vanity: string
+}
+
+export type ShoesTree = {
+  unique_shoes: string
+  fibergatherer_shoes: string
+  rockgatherer_shoes: string
+  hidegatherer_shoes: string
+  plate_shoes: string
+  cloth_shoes: string
+  fishgatherer_shoes: string
+  woodgatherer_shoes: string
+  leather_shoes: string
+  oregatherer_shoes: string
+}
+
+export type GuildMatch = {
+  MatchId: string
+  MatchType: string
+  StartTime: string
+  Status: number
+  TerritoryChangedOwner: null
+  Winner: number
+  Attacker: GuildMatchParticipant
+  Defender: GuildMatchParticipant
+  AttackerTickets: number
+  DefenderTickets: number
+  AttackerTerritory: null
+  DefenderTerritory: GuildMatchTerritory
+  AttackerResults: Record<string, GuildMatchContender>
+  DefenderResults: Record<string, GuildMatchContender>
+  AttackerTimeline: Array<GuildMatchTimeline>
+  DefenderTimeline: Array<GuildMatchTimeline>
+  AttackerContenders: Array<GuildMatchContender>
+  DefenderContenders: Array<GuildMatchContender>
+}
+
+export type GuildMatchParticipant = {
+  Id: string
+  Name: string
+  Alliance: GuildMatchAlliance | null
+}
+
+export type GuildMatchAlliance = {
+  AllianceId: string
+  AllianceName: null
+  AllianceTag: null
+}
+
+export type GuildMatchContender = {
+  PlayerId: string | null
+  Name: string
+  Team: GuildMatchContenderTeam
+  IsMercenary: boolean | null
+  Kills: number
+  Deaths: number
+  Healing: number | null
+  Fame: number
+}
+
+export type GuildMatchContenderTeam = "ATTACKER" | "DEFENDER"
+
+export type GuildMatchTimeline = {
+  EventType: string | null
+  TimeStamp: string
+  Tickets: number | null
+}
+
+export type GuildMatchTerritory = {
+  Id: string
+  Owner: GuildMatchParticipant
+  Type: string
+  Name: string
+  ClusterId: string
+  ClusterName: string
+  DefensePoints: null
+  DefenderBonus: null
 }

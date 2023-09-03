@@ -12,13 +12,16 @@ import type {
   BattlePlayer,
   DetailedGuildInfo,
   GuildInfo,
+  GuildMatch,
   GvGStats,
+  ItemCategoryTree,
   PaginationParams,
   SearchResponse,
   Server,
   ServerAPIURL,
   ServerStatusURL,
   TopAndSoloKillsParams,
+  WeaponCategory,
 } from "./types.ts"
 
 export class AlbionSDK {
@@ -199,6 +202,33 @@ export class AlbionSDK {
   }
 
   /**
+   * Fetch the latest GvG matches for a specific guild
+   *
+   * @param {string} id - the guilds id you wish to fetch details about
+   * @param {PaginationParams} params - the params you wish to use for the request
+   */
+  async getGuildRecentMatches(id: string, params?: PaginationParams) {
+    return this._fetch<Array<GuildMatch>>(
+      `/guildmatches/past`,
+      params
+        ? {
+            guildId: id,
+            ...params,
+          }
+        : { guildId: id },
+    )
+  }
+
+  /**
+   * Fetch details about a specific GvG match
+   *
+   * @param {string} id - the match id you wish to fetch details about
+   */
+  async getGuildMatchInfo(id: string) {
+    return this._fetch<GuildMatch>(`/guildmatches/${id}`)
+  }
+
+  /**
    * Fetch information about a specific alliance
    *
    * @param {string} id - the alliance id you wish to fetch details about
@@ -233,5 +263,46 @@ export class AlbionSDK {
    */
   async getBattleEvents(id: string, params: Required<PaginationParams>) {
     return this._fetch<Array<Event>>(`/battle/${id}`, params)
+  }
+
+  /**
+   * Fetch all latest PvP events
+   *
+   * @param {PaginationParams} params - the params you wish to use for the request
+   */
+  async getRecentEvents(params?: PaginationParams) {
+    return this._fetch<Array<Event>>("/events", params)
+  }
+
+  /**
+   * Fetch the latest top kills based on kill fame
+   *
+   * @param {TopAndSoloKillsParams} params - the params you wish to use for the request
+   */
+  async getRecentTopEvents(params?: TopAndSoloKillsParams) {
+    return this._fetch<Array<Event>>("/events/killfame", params)
+  }
+
+  /**
+   * Fetch information about a specific event
+   *
+   * @param {string} id - the event id you wish to fetch details about
+   */
+  async getEventInfo(id: string) {
+    return this._fetch<Event>(`/events/${id}`)
+  }
+
+  /**
+   * Fetch all weapon categories
+   */
+  async getWeaponCategories() {
+    return this._fetch<Array<WeaponCategory>>(`/items/_weaponcategories`)
+  }
+
+  /**
+   * Fetch the item category tree
+   */
+  async getItemCategoryTree() {
+    return this._fetch<ItemCategoryTree>(`/items/_itemCategoryTree`)
   }
 }
