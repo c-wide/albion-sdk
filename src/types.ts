@@ -413,12 +413,34 @@ export type GuildMatch = {
   DefenderTickets: number
   AttackerTerritory: null
   DefenderTerritory: GuildMatchTerritory
-  AttackerResults: Record<string, GuildMatchContender>
-  DefenderResults: Record<string, GuildMatchContender>
-  AttackerTimeline: Array<GuildMatchTimeline>
-  DefenderTimeline: Array<GuildMatchTimeline>
-  AttackerContenders: Array<GuildMatchContender>
-  DefenderContenders: Array<GuildMatchContender>
+  AttackerResults: Record<string, MatchContender>
+  DefenderResults: Record<string, MatchContender>
+  AttackerTimeline: Array<MatchTimeline>
+  DefenderTimeline: Array<MatchTimeline>
+  AttackerContenders: Array<MatchContender>
+  DefenderContenders: Array<MatchContender>
+}
+
+export type CrystalLeagueMatch = {
+  matchType: string
+  category: string
+  startTime: string
+  winner: number
+  team1Guild: null
+  team1Tickets: number
+  team1Territory: null
+  team1Results: Record<string, MatchContender>
+  team1Timeline: Array<MatchTimeline>
+  team1LeaderId: string
+  team2Guild: null
+  team2Tickets: number
+  team2Territory: null
+  team2Results: Record<string, MatchContender>
+  team2Timeline: Array<MatchTimeline>
+  team2LeaderId: string
+  crystalLeagueLevel: number
+  ttl: string
+  MatchId: string
 }
 
 export type GuildMatchParticipant = {
@@ -433,10 +455,10 @@ export type GuildMatchAlliance = {
   AllianceTag: null
 }
 
-export type GuildMatchContender = {
+export type MatchContender = {
   PlayerId: string | null
   Name: string
-  Team: GuildMatchContenderTeam
+  Team: MatchTeam
   IsMercenary: boolean | null
   Kills: number
   Deaths: number
@@ -444,9 +466,9 @@ export type GuildMatchContender = {
   Fame: number
 }
 
-export type GuildMatchContenderTeam = "ATTACKER" | "DEFENDER"
+export type MatchTeam = "ATTACKER" | "DEFENDER"
 
-export type GuildMatchTimeline = {
+export type MatchTimeline = {
   EventType: string | null
   TimeStamp: string
   Tickets: number | null

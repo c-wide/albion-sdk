@@ -10,6 +10,7 @@ import type {
   Battle,
   BattleParams,
   BattlePlayer,
+  CrystalLeagueMatch,
   DetailedGuildInfo,
   GuildInfo,
   GuildMatch,
@@ -290,6 +291,44 @@ export class AlbionSDK {
    */
   async getEventInfo(id: string) {
     return this._fetch<Event>(`/events/${id}`)
+  }
+
+  /**
+   * Fetch recent 5v5 Crystal League Matches
+   *
+   * @param {PaginationParams} params - the params you wish to use for the request
+   */
+  async getRecentCrystalLeagueMatches(params?: PaginationParams) {
+    return this._fetch<Array<CrystalLeagueMatch>>(
+      "/matches/crystalleague",
+      params
+        ? {
+            category: "crystal_league",
+            ...params,
+          }
+        : {
+            category: "crystal_league",
+          },
+    )
+  }
+
+  /**
+   * Fetch recent 20v20 Crystal League Matches
+   *
+   * @param {PaginationParams} params - the params you wish to use for the request
+   */
+  async getRecentCrystalLeagueCityMatches(params?: PaginationParams) {
+    return this._fetch<Array<CrystalLeagueMatch>>(
+      "/matches/crystalleague",
+      params
+        ? {
+            category: "crystal_league_city",
+            ...params,
+          }
+        : {
+            category: "crystal_league_city",
+          },
+    )
   }
 
   /**
