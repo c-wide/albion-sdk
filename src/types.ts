@@ -36,6 +36,35 @@ export type BattleParams = {
   sort?: SortOptions
 } & PaginationParams
 
+export type RenderItemParams = {
+  enchantment?: Range<0, 4>
+  quality?: Range<0, 5>
+  size?: Range<1, 217>
+  locale?: string
+}
+
+export type RenderSpellParams = {
+  size?: Range<1, 217>
+  locale?: string
+}
+
+export type RenderDestinyBoardParams = {
+  locale?: string
+}
+
+export type RenderGuildLogoParams = {
+  symbol: `GUILDSYMBOL_${string}`
+  symbolColor: Range<0, 14>
+  schema: `SCHEMA_${string}`
+  primarySchemaColor: Range<0, 14>
+  secondarySchemaColor: Range<0, 14>
+  type: `ACTIVE_{string}` | `PASSIVE_{string}`
+  size?: number
+  symbolScale?: number
+  symbolOffsetY?: number
+  gems?: number
+}
+
 export type SearchResponse = {
   guilds: Array<SearchGuild>
   players: Array<SearchPlayer>
@@ -484,3 +513,14 @@ export type GuildMatchTerritory = {
   DefensePoints: null
   DefenderBonus: null
 }
+
+export type Enumerate<
+  N extends number,
+  Acc extends number[] = [],
+> = Acc["length"] extends N
+  ? Acc[number]
+  : Enumerate<N, [...Acc, Acc["length"]]>
+
+export type Range<F extends number, T extends number> =
+  | Exclude<Enumerate<T>, Enumerate<F>>
+  | T

@@ -5,6 +5,7 @@ import type {
   ServerStatusResponse,
   ServerStatusURL,
 } from "./types.ts"
+import { stringifyObjectValues } from "./utils.ts"
 
 function buildURL(
   baseURL: ServerAPIURL,
@@ -13,17 +14,11 @@ function buildURL(
 ) {
   if (!queryParams) return `${baseURL}${endpoint}`
 
-  const params = new URLSearchParams()
+  const params = new URLSearchParams(
+    stringifyObjectValues(queryParams),
+  ).toString()
 
-  for (const [key, value] of Object.entries(queryParams)) {
-    if (typeof value !== "string") {
-      params.append(key, String(value))
-    } else {
-      params.append(key, value)
-    }
-  }
-
-  return `${baseURL}${endpoint}${queryParams ? "?" + params.toString() : ""}`
+  return `${baseURL}${endpoint}${params ? `?${params}` : ""}`
 }
 
 export async function _internal_fetch_status(

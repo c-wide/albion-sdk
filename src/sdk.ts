@@ -1,6 +1,7 @@
 import {
   EAST_API_URL,
   EAST_STATUS_URL,
+  RENDER_API_URL,
   WEST_API_URL,
   WEST_STATUS_URL,
 } from "./config.ts"
@@ -17,6 +18,10 @@ import type {
   GvGStats,
   ItemCategoryTree,
   PaginationParams,
+  RenderDestinyBoardParams,
+  RenderGuildLogoParams,
+  RenderItemParams,
+  RenderSpellParams,
   SearchResponse,
   Server,
   ServerAPIURL,
@@ -24,6 +29,7 @@ import type {
   TopAndSoloKillsParams,
   WeaponCategory,
 } from "./types.ts"
+import { stringifyObjectValues } from "./utils.ts"
 
 export class AlbionSDK {
   private _apiURL: ServerAPIURL
@@ -163,15 +169,10 @@ export class AlbionSDK {
    * @param {PaginationParams} params - the params you wish to use for the request
    */
   async getGuildRecentEvents(id: string, params?: PaginationParams) {
-    return this._fetch<Array<Event>>(
-      `/events`,
-      params
-        ? {
-            guildId: id,
-            ...params,
-          }
-        : { guildId: id },
-    )
+    return this._fetch<Array<Event>>(`/events`, {
+      guildId: id,
+      ...params,
+    })
   }
 
   /**
@@ -181,15 +182,10 @@ export class AlbionSDK {
    * @param {BattleParams} params - the params you wish to use for the request
    */
   async getGuildRecentBattles(id: string, params?: BattleParams) {
-    return this._fetch<Array<Battle>>(
-      `/battles`,
-      params
-        ? {
-            guildId: id,
-            ...params,
-          }
-        : { guildId: id },
-    )
+    return this._fetch<Array<Battle>>(`/battles`, {
+      guildId: id,
+      ...params,
+    })
   }
 
   /**
@@ -209,15 +205,10 @@ export class AlbionSDK {
    * @param {PaginationParams} params - the params you wish to use for the request
    */
   async getGuildRecentMatches(id: string, params?: PaginationParams) {
-    return this._fetch<Array<GuildMatch>>(
-      `/guildmatches/past`,
-      params
-        ? {
-            guildId: id,
-            ...params,
-          }
-        : { guildId: id },
-    )
+    return this._fetch<Array<GuildMatch>>(`/guildmatches/past`, {
+      guildId: id,
+      ...params,
+    })
   }
 
   /**
@@ -299,17 +290,10 @@ export class AlbionSDK {
    * @param {PaginationParams} params - the params you wish to use for the request
    */
   async getRecentCrystalLeagueMatches(params?: PaginationParams) {
-    return this._fetch<Array<CrystalLeagueMatch>>(
-      "/matches/crystalleague",
-      params
-        ? {
-            category: "crystal_league",
-            ...params,
-          }
-        : {
-            category: "crystal_league",
-          },
-    )
+    return this._fetch<Array<CrystalLeagueMatch>>("/matches/crystalleague", {
+      category: "crystal_league",
+      ...params,
+    })
   }
 
   /**
@@ -318,17 +302,10 @@ export class AlbionSDK {
    * @param {PaginationParams} params - the params you wish to use for the request
    */
   async getRecentCrystalLeagueCityMatches(params?: PaginationParams) {
-    return this._fetch<Array<CrystalLeagueMatch>>(
-      "/matches/crystalleague",
-      params
-        ? {
-            category: "crystal_league_city",
-            ...params,
-          }
-        : {
-            category: "crystal_league_city",
-          },
-    )
+    return this._fetch<Array<CrystalLeagueMatch>>("/matches/crystalleague", {
+      category: "crystal_league_city",
+      ...params,
+    })
   }
 
   /**
@@ -343,5 +320,77 @@ export class AlbionSDK {
    */
   async getItemCategoryTree() {
     return this._fetch<ItemCategoryTree>(`/items/_itemCategoryTree`)
+  }
+
+  /**
+   * Generate an item icon url for the Albion Online Render API
+   *
+   * @param {string} item - the item identifier or localized name
+   * @param {RenderItemParams} params - the params you wish to use for the request
+   */
+  getItemIconUrl(item: string, params?: RenderItemParams) {
+    const { enchantment = 0, ...restParams } = params ?? {}
+
+    const urlSearchParams = new URLSearchParams(
+      stringifyObjectValues(restParams),
+    ).toString()
+
+    return `${RENDER_API_URL}/item/${item}@${enchantment}.png${
+      urlSearchParams ? `?${urlSearchParams}` : ""
+    }`
+  }
+
+  /**
+   * Generate a spell icon url for the Albion Online Render API
+   *
+   * @param {string} spell - the spell identifier or localized name
+   * @param {RenderSpellParams} params - the params you wish to use for the request
+   */
+  getSpellIconUrl(spell: string, params?: RenderSpellParams) {
+    const urlSearchParams = new URLSearchParams(
+      stringifyObjectValues(params ?? {}),
+    ).toString()
+
+    return `${RENDER_API_URL}/spell/${spell}.png${
+      urlSearchParams ? `?${urlSearchParams}` : ""
+    }`
+  }
+
+  /**
+   * Generate a wardrobe icon url for the Albion Online Render API
+   *
+   * @param {string} item - the item identifier or localized name
+   */
+  getWardrobeIconUrl(item: string) {
+    return `${RENDER_API_URL}/wardrobe/${item}.png`
+  }
+
+  /**
+   * Generate a destiny board icon url for the Albion Online Render API
+   *
+   * @param {string} node - the destiny board node identifier
+   * @param {RenderDestinyBoardParams} params - the params you wish to use for the request
+   */
+  getDestinyBoardIconUrl(node: string, params?: RenderDestinyBoardParams) {
+    const urlSearchParams = new URLSearchParams(
+      stringifyObjectValues(params ?? {}),
+    ).toString()
+
+    return `${RENDER_API_URL}/destiny/${node}.png${
+      urlSearchParams ? `?${urlSearchParams}` : ""
+    }`
+  }
+
+  /**
+   * Generate a guild logo url for the Albion Online Render API
+   *
+   * @param {RenderGuildLogoParams} params - the params you wish to use for the request
+   */
+  getGuildLogoUrl(params: RenderGuildLogoParams) {
+    const urlSearchParams = new URLSearchParams(
+      stringifyObjectValues(params ?? {}),
+    ).toString()
+
+    return `${RENDER_API_URL}/guild/logo.png?${urlSearchParams}`
   }
 }
