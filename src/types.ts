@@ -134,6 +134,7 @@ export type Armor = {
   Quality: number
   ActiveSpells: Array<never>
   PassiveSpells: Array<never>
+  LegendarySoul: unknown | null
 }
 
 export type LifetimeStatistics = {
