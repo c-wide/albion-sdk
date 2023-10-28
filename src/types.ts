@@ -128,13 +128,40 @@ export type Equipment = {
   Food: Armor | null
 }
 
+export type LegendarySoul = {
+  id: string
+  subtype: number
+  era: number
+  name: null
+  lastEquipped: string
+  attunedPlayer: string
+  attunedPlayerName: string
+  attunement: number
+  attunementSpentSinceReset: number
+  attunementSpent: number
+  quality: number
+  craftedBy: string
+  traits: Trait[]
+  PvPFameGained: number
+}
+
+export type Trait = {
+  roll: number
+  pendingRolls: Array<unknown>
+  pendingTraits: Array<unknown>
+  value: number
+  trait: string
+  minvalue: number
+  maxvalue: number
+}
+
 export type Armor = {
   Type: string
   Count: number
   Quality: number
   ActiveSpells: Array<never>
   PassiveSpells: Array<never>
-  LegendarySoul: unknown | null
+  LegendarySoul: LegendarySoul | null
 }
 
 export type LifetimeStatistics = {
