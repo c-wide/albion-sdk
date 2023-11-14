@@ -10,7 +10,6 @@ import type {
   Alliance,
   Battle,
   BattleParams,
-  BattlePlayer,
   CrystalLeagueMatch,
   DetailedGuildInfo,
   GuildInfo,
@@ -18,6 +17,7 @@ import type {
   GvGStats,
   ItemCategoryTree,
   PaginationParams,
+  Player,
   RenderDestinyBoardParams,
   RenderGuildLogoParams,
   RenderItemParams,
@@ -73,7 +73,7 @@ export class AlbionSDK {
    * @param {string} id - the players id you wish to fetch details about
    */
   async getPlayerInfo(id: string) {
-    return this._fetch<BattlePlayer>(`/players/${id}`)
+    return this._fetch<Player>(`/players/${id}`)
   }
 
   /**
@@ -138,7 +138,7 @@ export class AlbionSDK {
    * @param {string} id - the guilds id you wish to fetch details about
    */
   async getGuildMembers(id: string) {
-    return this._fetch<Array<BattlePlayer>>(`/guilds/${id}/members`)
+    return this._fetch<Array<Player>>(`/guilds/${id}/members`)
   }
 
   /**
