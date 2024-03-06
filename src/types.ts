@@ -1,15 +1,15 @@
 import type {
-	EAST_API_URL,
-	EAST_STATUS_URL,
-	WEST_API_URL,
-	WEST_STATUS_URL,
+	NA_API_URL,
+	NA_STATUS_URL,
+	SGP_API_URL,
+	SGP_STATUS_URL,
 } from "./config.ts";
 
-export type Server = "west" | "east";
+export type Server = "NA" | "SGP";
 
-export type ServerAPIURL = typeof WEST_API_URL | typeof EAST_API_URL;
+export type ServerAPIURL = typeof NA_API_URL | typeof SGP_API_URL;
 
-export type ServerStatusURL = typeof WEST_STATUS_URL | typeof EAST_STATUS_URL;
+export type ServerStatusURL = typeof NA_STATUS_URL | typeof SGP_STATUS_URL;
 
 export type StandardTimeRange = "week" | "month" | "lastWeek" | "lastMonth";
 

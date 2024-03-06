@@ -23,7 +23,7 @@ Designed with ❤️ for the Albion community.
 ```javascript
 import { AlbionSDK } from "albion-sdk"
 
-const api = new AlbionSDK("west")
+const api = new AlbionSDK("NA")
 
 api
   .search("man")
