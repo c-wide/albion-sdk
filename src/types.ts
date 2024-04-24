@@ -1,15 +1,23 @@
 import type {
-	NA_API_URL,
-	NA_STATUS_URL,
-	SGP_API_URL,
-	SGP_STATUS_URL,
+	AMERICAS_API_URL,
+	AMERICAS_STATUS_URL,
+	ASIA_API_URL,
+	ASIA_STATUS_URL,
+	EUROPE_API_URL,
+	EUROPE_STATUS_URL,
 } from "./config.ts";
 
-export type Server = "NA" | "SGP";
+export type Server = "Americas" | "Asia" | "Europe";
 
-export type ServerAPIURL = typeof NA_API_URL | typeof SGP_API_URL;
+export type ServerAPIURL =
+	| typeof AMERICAS_API_URL
+	| typeof ASIA_API_URL
+	| typeof EUROPE_API_URL;
 
-export type ServerStatusURL = typeof NA_STATUS_URL | typeof SGP_STATUS_URL;
+export type ServerStatusURL =
+	| typeof AMERICAS_STATUS_URL
+	| typeof ASIA_STATUS_URL
+	| typeof EUROPE_STATUS_URL;
 
 export type StandardTimeRange = "week" | "month" | "lastWeek" | "lastMonth";
 

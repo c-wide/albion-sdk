@@ -1,9 +1,11 @@
 import {
-	NA_API_URL,
-	NA_STATUS_URL,
+	AMERICAS_API_URL,
+	AMERICAS_STATUS_URL,
+	ASIA_API_URL,
+	ASIA_STATUS_URL,
+	EUROPE_API_URL,
+	EUROPE_STATUS_URL,
 	RENDER_API_URL,
-	SGP_API_URL,
-	SGP_STATUS_URL,
 } from "./config.ts";
 import { _internal_fetch, _internal_fetch_status } from "./fetch.ts";
 import type {
@@ -39,18 +41,28 @@ export class AlbionSDK {
 	constructor(server: Server) {
 		if (server === undefined) {
 			throw new Error(
-				"You must specify an Albion Online server, either 'NA' for North America or 'SGP' for South East Asia",
+				"You must specify an Albion Online server, either 'Americas', 'Asia', or 'Europe'",
 			);
 		}
 
-		if (server !== "NA" && server !== "SGP") {
-			throw new Error(
-				"Invalid server, please use 'NA' for North America or 'SGP' for South East Asia",
-			);
+		switch (server) {
+			case "Americas":
+				this._apiURL = AMERICAS_API_URL;
+				this._statusURL = AMERICAS_STATUS_URL;
+				break;
+			case "Asia":
+				this._apiURL = ASIA_API_URL;
+				this._statusURL = ASIA_STATUS_URL;
+				break;
+			case "Europe":
+				this._apiURL = EUROPE_API_URL;
+				this._statusURL = EUROPE_STATUS_URL;
+				break;
+			default:
+				throw new Error(
+					"Invalid server specifier, please use 'Americas', 'Asia', or 'Europe'",
+				);
 		}
-
-		this._apiURL = server === "NA" ? NA_API_URL : SGP_API_URL;
-		this._statusURL = server === "NA" ? NA_STATUS_URL : SGP_STATUS_URL;
 	}
 
 	private async _fetch<T>(
