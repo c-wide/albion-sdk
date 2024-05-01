@@ -1,10 +1,10 @@
 {
 	"name": "albion-sdk",
-	"version": "0.8.0",
+	"version": "1.0.0",
 	"author": "Cody Tenney",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/c-wide/albion-sdk"
+		"url": "git+https://github.com/c-wide/albion-sdk"
 	},
 	"main": "./dist/index.js",
 	"devDependencies": {
