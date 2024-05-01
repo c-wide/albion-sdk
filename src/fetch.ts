@@ -3,13 +3,13 @@ import type {
 	ServerStatusResponse,
 	ServerStatusURL,
 } from "./types.ts";
-import { stringifyObjectValues } from "./utils.ts";
+import { getErrorMessage, stringifyObjectValues } from "./utils.ts";
 
 function buildURL(
 	baseURL: ServerAPIURL,
 	endpoint: string,
 	queryParams?: Record<string, string | number>,
-) {
+): string {
 	if (!queryParams) return `${baseURL}${endpoint}`;
 
 	const params = new URLSearchParams(
@@ -34,7 +34,7 @@ export async function _internal_fetch_status(
 
 		return (await response.json()) as ServerStatusResponse;
 	} catch (e) {
-		throw e instanceof Error ? e : new Error("Unknown error");
+		throw new Error(getErrorMessage(e));
 	}
 }
 
@@ -54,6 +54,6 @@ export async function _internal_fetch<T>(
 
 		return (await response.json()) as T;
 	} catch (e) {
-		throw e instanceof Error ? e : new Error("Unknown error");
+		throw new Error(getErrorMessage(e));
 	}
 }

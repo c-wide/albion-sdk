@@ -1,3 +1,4 @@
 export * from "./sdk.ts";
-export * from "./config.ts";
+export * from "./render.ts";
+export * from "./urls.ts";
 export * from "./types.ts";

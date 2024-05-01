@@ -5,9 +5,9 @@ import type {
 	ASIA_STATUS_URL,
 	EUROPE_API_URL,
 	EUROPE_STATUS_URL,
-} from "./config.ts";
+} from "./urls.ts";
 
-export type Server = "Americas" | "Asia" | "Europe";
+export type Region = "Americas" | "Asia" | "Europe";
 
 export type ServerAPIURL =
 	| typeof AMERICAS_API_URL
@@ -21,7 +21,7 @@ export type ServerStatusURL =
 
 export type StandardTimeRange = "week" | "month" | "lastWeek" | "lastMonth";
 
-export type SortOptions = "totalfame" | "recent";
+export type SortOption = "totalfame" | "recent";
 
 export type ServerStatus = "online" | "offline" | "starting";
 
@@ -41,7 +41,7 @@ export type TopAndSoloKillsParams = {
 
 export type BattleParams = {
 	range?: StandardTimeRange;
-	sort?: SortOptions;
+	sort?: SortOption;
 } & PaginationParams;
 
 export type RenderItemParams = {
@@ -107,7 +107,7 @@ export type SearchPlayer = {
 export type Player = {
 	AverageItemPower: number;
 	Equipment: Equipment;
-	Inventory: Array<Armor | null>;
+	Inventory: Array<Item | null>;
 	Name: string;
 	Id: string;
 	GuildName: string;
@@ -124,16 +124,16 @@ export type Player = {
 };
 
 export type Equipment = {
-	MainHand: Armor | null;
-	OffHand: Armor | null;
-	Head: Armor | null;
-	Armor: Armor | null;
-	Shoes: Armor | null;
-	Bag: Armor | null;
-	Cape: Armor | null;
-	Mount: Armor | null;
-	Potion: Armor | null;
-	Food: Armor | null;
+	MainHand: Item | null;
+	OffHand: Item | null;
+	Head: Item | null;
+	Armor: Item | null;
+	Shoes: Item | null;
+	Bag: Item | null;
+	Cape: Item | null;
+	Mount: Item | null;
+	Potion: Item | null;
+	Food: Item | null;
 };
 
 export type LegendarySoul = {
@@ -163,7 +163,7 @@ export type Trait = {
 	maxvalue: number;
 };
 
-export type Armor = {
+export type Item = {
 	Type: string;
 	Count: number;
 	Quality: number;
