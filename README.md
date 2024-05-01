@@ -21,16 +21,30 @@ Designed with ❤️ for the Albion community.
 ## Usage
 
 ```javascript
-import { AlbionSDK } from "albion-sdk"
+import { AlbionSDK } from "albion-sdk";
+/* OR */
+const { AlbionSDK } = require("albion-sdk");
 
-const api = new AlbionSDK("Americas")
+const sdk = new AlbionSDK("Americas");
 
-api
+sdk
   .search("man")
   .then((res) => {
-    console.log(res)
+    console.log(res);
   })
   .catch((e) => {
-    console.log(e)
-  })
+    console.error(e);
+  });
 ```
+
+## Render Service URL Builders
+
+This package exposes several functions to generate URLs for the Albion Online Render Service, making it easy to integrate the Render Service into your application.
+
+The following functions are available:
+
+- itemIconUrl(item: string, params?: RenderItemParams): string
+- spellIconUrl(spell: string, params?: RenderSpellParams): string
+- wardrobeIconUrl(item: string): string
+- destinyBoardIconUrl(node: string, params?: RenderDestinyBoardParams): string
+- guildLogoUrl(params: RenderGuildLogoParams): string
