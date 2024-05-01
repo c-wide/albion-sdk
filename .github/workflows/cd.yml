@@ -3,19 +3,19 @@ name: Deployment
 on:
   push:
     branches:
-        - main
+      - main
 
 jobs:
   release:
     name: Build and create release
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -23,20 +23,14 @@ jobs:
           node-version: 20.12.2
           registry-url: "https://registry.npmjs.org"
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          run_install: false
-
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: bun install
 
       - name: Build project
-        run: pnpm run build
+        run: bun run build
 
       - name: Publish package on NPM
-        run: pnpm publish --access public --no-git-checks
+        run: npm publish
 
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
