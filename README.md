@@ -21,16 +21,18 @@ Designed with ❤️ for the Albion community.
 ## Usage
 
 ```javascript
-import { AlbionSDK } from "albion-sdk"
+import { AlbionSDK } from "albion-sdk";
+/* OR */
+const { AlbionSDK } = require("albion-sdk");
 
-const api = new AlbionSDK("Americas")
+const api = new AlbionSDK("Americas");
 
 api
   .search("man")
   .then((res) => {
-    console.log(res)
+    console.log(res);
   })
   .catch((e) => {
-    console.log(e)
-  })
+    console.log(e);
+  });
 ```
