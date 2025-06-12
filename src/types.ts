@@ -19,6 +19,11 @@ export type ServerStatusURL =
 	| typeof ASIA_STATUS_URL
 	| typeof EUROPE_STATUS_URL;
 
+export type AlbionAPIFetchOptions = {
+	signal?: AbortSignal;
+	timeoutMs?: number;
+};
+
 export type StandardTimeRange = "week" | "month" | "lastWeek" | "lastMonth";
 
 export type SortOption = "totalfame" | "recent";
