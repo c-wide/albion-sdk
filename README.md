@@ -22,19 +22,28 @@ Designed with ❤️ for the Albion community.
 
 ```javascript
 import { AlbionSDK } from "albion-sdk";
-/* OR */
-const { AlbionSDK } = require("albion-sdk");
 
 const sdk = new AlbionSDK("Americas");
 
-sdk
-  .search("man")
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((e) => {
-    console.error(e);
+try {
+  // Basic usage
+  const searchResults = await sdk.search("man");
+  console.log(searchResults);
+
+  // With request options (timeout and abort signal)
+  const controller = new AbortController();
+  const playerInfo = await sdk.getPlayerInfo("playerId", {
+    timeoutMs: 5_000,
+    signal: controller.signal,
   });
+  console.log(playerInfo);
+} catch (error) {
+  if (error instanceof AlbionAPIError) {
+    console.error(`Response: ${error.responseBody}`);
+  } else {
+    console.error("Unexpected error:", error);
+  }
+}
 ```
 
 ## Render Service URL Builders
