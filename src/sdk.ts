@@ -56,16 +56,17 @@ export class AlbionAPIError extends Error {
 }
 
 export class AlbionSDK {
-	#apiURL: ServerAPIURL;
-	#statusURL: ServerStatusURL;
+	#apiURL!: ServerAPIURL;
+	#statusURL!: ServerStatusURL;
+	#region: Region;
+	#regionInstances: Map<Region, AlbionSDK> = new Map();
 
-	constructor(region: Region) {
-		if (!region) {
-			throw new Error(
-				"You must specify a region, either 'Americas', 'Asia', or 'Europe'",
-			);
-		}
+	constructor(region?: Region) {
+		this.#region = region || "Americas";
+		this.#setRegionUrls(this.#region);
+	}
 
+	#setRegionUrls(region: Region) {
 		switch (region) {
 			case "Americas":
 				this.#apiURL = AMERICAS_API_URL;
@@ -84,6 +85,29 @@ export class AlbionSDK {
 					"Invalid region provided, please use 'Americas', 'Asia', or 'Europe'",
 				);
 		}
+	}
+
+	#getRegionInstance(region: Region): AlbionSDK {
+		if (!this.#regionInstances.has(region)) {
+			this.#regionInstances.set(region, new AlbionSDK(region));
+		}
+		const instance = this.#regionInstances.get(region);
+		if (!instance) {
+			throw new Error(`Failed to create SDK instance for region: ${region}`);
+		}
+		return instance;
+	}
+
+	get americas(): AlbionSDK {
+		return this.#getRegionInstance("Americas");
+	}
+
+	get asia(): AlbionSDK {
+		return this.#getRegionInstance("Asia");
+	}
+
+	get europe(): AlbionSDK {
+		return this.#getRegionInstance("Europe");
 	}
 
 	async #fetch<T>(

@@ -23,12 +23,16 @@ Designed with ❤️ for the Albion community.
 ```javascript
 import { AlbionSDK } from "albion-sdk";
 
-const sdk = new AlbionSDK("Americas");
+// Creates an SDK instance (defaults to Americas region)
+const sdk = new AlbionSDK();
 
 try {
-  // Basic usage
+  // Basic usage, uses the region specified when creating the SDK instance
   const searchResults = await sdk.search("man");
   console.log(searchResults);
+
+  // Or target a specific region
+  const europePlayerInfo = await sdk.europe.getPlayerInfo("playerId");
 
   // With request options (timeout and abort signal)
   const controller = new AbortController();
